@@ -13,6 +13,20 @@ st.set_page_config(page_title="CarpoolPal", page_icon="🚗", layout="wide")
 # Title
 st.title("🚗 CarpoolPal - AI Ride Sharing")
 st.markdown("**Built by Muskan Yadav** | [GitHub](https://github.com/muskan-yadav18)")
+
+# Custom CSS - matches new design (sage + ink-green + marigold)
+st.markdown("""
+<style>
+.stApp { background-color: #F4F6F1; }
+h1, h2, h3 { font-family: 'Space Grotesk', sans-serif !important; color: #122A24 !important; }
+div.stButton > button {
+    background-color: #1F6F54; color: white; border-radius: 8px;
+    font-weight: 600; border: none; padding: 0.6em 1.4em;
+}
+div.stButton > button:hover { background-color: #18573F; color: white; }
+</style>
+""", unsafe_allow_html=True)
+
 st.divider()
 
 # Create tabs for each feature

@@ -1,156 +1,74 @@
-// Import React and useState hook
 import { useState } from 'react';
-
-// Import login function from api service
 import { login } from '../services/api';
+import RouteLine from '../components/RouteLine';
 
 function Login() {
-  // Store form data in state
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-
-  // Store error message
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
-
-  // Store loading state
   const [loading, setLoading] = useState(false);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
-      // Call login API
       const response = await login(formData);
-
-      // Save token to localStorage
       localStorage.setItem('token', response.token);
-
-      // Redirect to home page
       window.location.href = '/home';
     } catch (err) {
       setError(err.response?.data?.detail || 'Login failed!');
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>🚗 CarpoolPal</h1>
-        <h2 style={styles.subtitle}>Login</h2>
+        <div style={styles.brandRow}>
+          <span style={styles.brandMark}>⟡</span>
+          <span style={styles.brandName}>CarpoolPal</span>
+        </div>
+        <RouteLine />
+        <h2 style={styles.title}>Welcome back</h2>
+        <p style={styles.subtitle}>Log in to find or offer a ride</p>
 
-        {/* Show error if any */}
         {error && <p style={styles.error}>{error}</p>}
 
-        <div>
-          {/* Email input */}
-          <input
-            style={styles.input}
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
+        <form onSubmit={handleSubmit}>
+          <label style={styles.label}>Email</label>
+          <input style={styles.input} type="email" name="email" placeholder="you@vitbhopal.ac.in" value={formData.email} onChange={handleChange} />
 
-          {/* Password input */}
-          <input
-            style={styles.input}
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+          <label style={styles.label}>Password</label>
+          <input style={styles.input} type="password" name="password" placeholder="••••••••" value={formData.password} onChange={handleChange} />
 
-          {/* Submit button */}
-          <button
-            style={styles.button}
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? 'Logging in...' : 'Login'}
+          <button type="submit" style={styles.button} disabled={loading}>
+            {loading ? 'Logging in…' : 'Log in'}
           </button>
+        </form>
 
-          {/* Link to signup page */}
-          <p style={styles.link}>
-            Don't have an account?{' '}
-            <a href="/signup" style={styles.anchor}>Sign Up</a>
-          </p>
-        </div>
+        <p style={styles.link}>
+          New to CarpoolPal? <a href="/signup" style={styles.anchor}>Create an account</a>
+        </p>
       </div>
     </div>
   );
 }
 
-// Styles
 const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#f0f2f5'
-  },
-  card: {
-    backgroundColor: 'white',
-    padding: '40px',
-    borderRadius: '10px',
-    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-    width: '400px'
-  },
-  title: {
-    textAlign: 'center',
-    color: '#2c3e50',
-    marginBottom: '5px'
-  },
-  subtitle: {
-    textAlign: 'center',
-    color: '#7f8c8d',
-    marginBottom: '20px'
-  },
-  input: {
-    width: '100%',
-    padding: '12px',
-    marginBottom: '15px',
-    borderRadius: '5px',
-    border: '1px solid #ddd',
-    fontSize: '16px',
-    boxSizing: 'border-box'
-  },
-  button: {
-    width: '100%',
-    padding: '12px',
-    backgroundColor: '#3498db',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    fontSize: '16px',
-    cursor: 'pointer'
-  },
-  error: {
-    color: 'red',
-    textAlign: 'center',
-    marginBottom: '10px'
-  },
-  link: {
-    textAlign: 'center',
-    marginTop: '15px'
-  },
-  anchor: {
-    color: '#3498db'
-  }
+  container: { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#F4F6F1', fontFamily: "'Inter', sans-serif", padding: '24px' },
+  card: { backgroundColor: '#FFFFFF', padding: '44px 40px', borderRadius: '16px', boxShadow: '0 1px 2px rgba(18,42,36,0.04), 0 16px 40px rgba(18,42,36,0.08)', width: '420px', border: '1px solid #E2E6DB' },
+  brandRow: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 },
+  brandMark: { color: '#F2A93B', fontSize: 20 },
+  brandName: { fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 19, color: '#122A24', letterSpacing: '-0.02em' },
+  title: { fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 26, color: '#122A24', margin: '4px 0 4px' },
+  subtitle: { color: '#5C6B66', fontSize: 14, margin: '0 0 24px' },
+  label: { display: 'block', fontSize: 12.5, fontWeight: 600, color: '#3C4A45', marginBottom: 6, marginTop: 14, textTransform: 'uppercase', letterSpacing: '0.04em' },
+  input: { width: '100%', padding: '12px 14px', borderRadius: '8px', border: '1px solid #E2E6DB', fontSize: 15, boxSizing: 'border-box', fontFamily: "'Inter', sans-serif", backgroundColor: '#F9FAF5', outline: 'none' },
+  button: { width: '100%', padding: '13px', backgroundColor: '#1F6F54', color: '#FFFFFF', border: 'none', borderRadius: '8px', fontSize: 15, fontWeight: 600, cursor: 'pointer', marginTop: 22, fontFamily: "'Inter', sans-serif" },
+  error: { color: '#D1453B', backgroundColor: '#FBEAE8', padding: '10px 12px', borderRadius: '8px', fontSize: 13.5, marginBottom: 16 },
+  link: { textAlign: 'center', marginTop: 22, fontSize: 14, color: '#5C6B66' },
+  anchor: { color: '#1F6F54', fontWeight: 600, textDecoration: 'none' }
 };
 
 export default Login;
