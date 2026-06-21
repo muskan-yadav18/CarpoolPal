@@ -19,11 +19,34 @@ st.markdown("""
 <style>
 .stApp { background-color: #F4F6F1; }
 h1, h2, h3 { font-family: 'Space Grotesk', sans-serif !important; color: #122A24 !important; }
+
+/* Labels and text */
+.stMarkdown, label, p, .stSlider label, .stSelectbox label, .stNumberInput label {
+    color: #122A24 !important;
+}
+
+/* Input boxes - light background, dark text */
+.stNumberInput input, .stTextInput input, div[data-baseweb="select"] > div {
+    background-color: #FFFFFF !important;
+    color: #122A24 !important;
+    border: 1px solid #D7DECF !important;
+    border-radius: 8px !important;
+}
+
+/* Buttons */
 div.stButton > button {
     background-color: #1F6F54; color: white; border-radius: 8px;
     font-weight: 600; border: none; padding: 0.6em 1.4em;
 }
 div.stButton > button:hover { background-color: #18573F; color: white; }
+
+/* Tabs */
+.stTabs [data-baseweb="tab"] { color: #5C6B66; }
+.stTabs [aria-selected="true"] { color: #1F6F54 !important; }
+
+/* Metrics */
+[data-testid="stMetricValue"] { color: #122A24 !important; }
+[data-testid="stMetricLabel"] { color: #5C6B66 !important; }
 </style>
 """, unsafe_allow_html=True)
 
